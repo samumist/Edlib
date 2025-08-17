@@ -6,7 +6,7 @@ const loadLocale = async (locale) => {
     }
 
     if (locale === 'en') {
-        return {locale: 'en', messages: defaultMessages};
+        return {locale: 'zh-hans', messages: defaultMessages};
     }
 
     let messages;
@@ -19,7 +19,7 @@ const loadLocale = async (locale) => {
             try {
                 ({ messages } = await loadLocale(locale));
             } catch (e) {
-                locale = 'en';
+                locale = 'zh-hans';
                 messages = defaultMessages;
             }
         }
@@ -29,7 +29,7 @@ const loadLocale = async (locale) => {
         messages = Object.assign({}, defaultMessages, messages);
     }
 
-    return {locale, messages, defaultLocale: 'en'};
+    return {locale, messages, defaultLocale: 'zh-hans'};
 };
 
 export { loadLocale };

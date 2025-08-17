@@ -25,7 +25,7 @@ class UserFactory extends Factory
             'email_verified' => true,
             'password' => Hash::make($this->faker->password),
             'admin' => false,
-            'locale' => 'en',
+            'locale' => 'zh-hans',
             'debug_mode' => false,
         ];
     }

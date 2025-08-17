@@ -86,7 +86,7 @@ return [
     |
     */
 
-    'locale' => 'en',
+    'locale' => 'zh-hans',
 
     'allowed_locales' => ['en', 'nb', 'nl', 'nn', 'zh-hans'],
 
@@ -101,7 +101,7 @@ return [
     |
     */
 
-    'fallback_locale' => 'en',
+    'fallback_locale' => 'zh-hans',
 
     /*
     |--------------------------------------------------------------------------

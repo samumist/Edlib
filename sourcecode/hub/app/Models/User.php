@@ -69,7 +69,7 @@ class User extends Model implements AuthenticatableContract
     ];
 
     protected $attributes = [
-        'locale' => 'en',
+        'locale' => 'zh-hans',
         'admin' => false,
         'debug_mode' => false,
         // If false, emails are sent upon creating the user. Aside from the
