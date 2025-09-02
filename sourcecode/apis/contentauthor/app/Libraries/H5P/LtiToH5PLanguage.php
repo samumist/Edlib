@@ -8,6 +8,11 @@ class LtiToH5PLanguage
 {
     public static function convert(?string $ltiLanguage = 'en-gb', ?string $defaultLanguage = 'en-gb'): string
     {
+        // 特殊处理中文语言代码，保持完整的zh-hans格式
+        if ($ltiLanguage && str_starts_with(strtolower($ltiLanguage), 'zh')) {
+            return 'zh-hans';
+        }
+        
         return self::extractCode($ltiLanguage) ?: self::extractCode($defaultLanguage) ?: 'en';
     }
 

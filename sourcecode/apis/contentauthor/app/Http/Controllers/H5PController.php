@@ -162,7 +162,7 @@ class H5PController extends Controller
         
         // 对于中文，H5P编辑器使用特定的语言代码格式
         if (str_starts_with(strtolower($h5pLanguage), 'zh')) {
-            $h5pLanguage = 'zh'; // H5P编辑器使用'zh'作为中文代码
+            $h5pLanguage = 'zh-hans'; // H5P编辑器使用'zh-hans'作为简体中文代码
         } else {
             // 对于其他语言，尝试使用Iso639p3转换
             try {
