@@ -168,7 +168,10 @@ class ContentFilter extends FormRequest
         }
 
         return $options
-            ->map(fn(int $value, string $key) => $withExpectedHits ? sprintf('%s (%d)', $key, $value) : $key)
+            ->map(function(int $value, string $key) use ($withExpectedHits) {
+                $displayName = $this->getDisplayedContentType($key);
+                return $withExpectedHits ? sprintf('%s (%d)', $displayName, $value) : $displayName;
+            })
             ->sort()
             ->toArray();
     }
@@ -243,6 +246,46 @@ class ContentFilter extends FormRequest
     public function shouldUpdateContentTypeOptions(): bool
     {
         return $this->languageChanged || $this->queryChanged;
+    }
+
+    /**
+     * Get displayed content type name (convert machine name to friendly name)
+     */
+    private function getDisplayedContentType(string $machineName): string
+    {
+        // Try to get friendly name from config
+        $h5pConfig = config('h5p_content_types');
+        
+        // First try direct match
+        $friendlyNames = $h5pConfig[$machineName] ?? null;
+        
+        // If not found and it's h5p.* format, try H5P.* format
+        if (!$friendlyNames && str_starts_with($machineName, 'h5p.')) {
+            $normalizedName = 'H5P.' . substr($machineName, 4);
+            $friendlyNames = $h5pConfig[$normalizedName] ?? null;
+        }
+        
+        if ($friendlyNames && is_array($friendlyNames)) {
+            $locale = app()->getLocale();
+            
+            // Map locale variants to base locale
+            $localeMap = [
+                'zh-hans' => 'zh',
+                'zh-hant' => 'zh',
+                'en-us' => 'en',
+                'en-gb' => 'en',
+            ];
+            
+            $mappedLocale = $localeMap[$locale] ?? $locale;
+            
+            // Try mapped locale first, then current locale, then fallback to English, then original name
+            return $friendlyNames[$mappedLocale] 
+                ?? $friendlyNames[$locale] 
+                ?? $friendlyNames['en'] 
+                ?? $machineName;
+        }
+        
+        return $machineName;
     }
 
     /**
@@ -347,7 +390,7 @@ class ContentFilter extends FormRequest
                     createdAt: $version->created_at?->toImmutable(),
                     isPublished: $version->published,
                     viewsCount: $item['views'] ?? 0,
-                    contentType: $item['content_type'] ?? $version->getDisplayedContentType(),
+                    contentType: $version->getDisplayedContentType(),
                     languageIso639_3: strtoupper($version->language_iso_639_3),
                     languageDisplayName: $languageName,
                     users: $content->users->map(fn($user) => $user->name)->join(', '),

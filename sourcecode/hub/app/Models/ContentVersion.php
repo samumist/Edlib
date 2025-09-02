@@ -259,7 +259,34 @@ class ContentVersion extends Model
         $tag = $this->tags()->where('prefix', 'h5p')->first();
 
         if ($tag) {
-            return $tag->pivot->verbatim_name ?? $tag->name;
+            $machineName = $tag->pivot->verbatim_name ?? $tag->name;
+            
+            // Try to get friendly name from config
+            // Use direct array access instead of dot notation to handle keys with dots
+            $h5pConfig = config('h5p_content_types');
+            $friendlyNames = $h5pConfig[$machineName] ?? null;
+            
+            if ($friendlyNames && is_array($friendlyNames)) {
+                $locale = app()->getLocale();
+                
+                // Map locale variants to base locale
+                $localeMap = [
+                    'zh-hans' => 'zh',
+                    'zh-hant' => 'zh',
+                    'en-us' => 'en',
+                    'en-gb' => 'en',
+                ];
+                
+                $mappedLocale = $localeMap[$locale] ?? $locale;
+                
+                // Try mapped locale first, then current locale, then fallback to English, then original name
+                return $friendlyNames[$mappedLocale] 
+                    ?? $friendlyNames[$locale] 
+                    ?? $friendlyNames['en'] 
+                    ?? $machineName;
+            }
+            
+            return $machineName;
         }
 
         return (string) $this->tool?->name;
