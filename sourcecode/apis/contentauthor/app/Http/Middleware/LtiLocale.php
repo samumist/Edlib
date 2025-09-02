@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use App\Lti\Lti;
 use Closure;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 
 class LtiLocale
@@ -25,7 +26,11 @@ class LtiLocale
                 Session::put('locale', $ltiRequest->getLocale());
             }
         }
-        App::setLocale($this->resolveLocale(Session::get('locale', config('app.fallback_locale'))));
+        $sessionLocale = Session::get('locale', config('app.fallback_locale'));
+        $resolvedLocale = $this->resolveLocale($sessionLocale);
+        App::setLocale($resolvedLocale);
+        
+        Log::info('LtiLocale middleware - Session locale: ' . $sessionLocale . ', Resolved locale: ' . $resolvedLocale . ', App locale: ' . App::getLocale());
 
         return $next($request);
     }
@@ -36,6 +41,19 @@ class LtiLocale
      */
     private function resolveLocale(string $locale): string
     {
+        // 特殊处理中文语言代码，H5P编辑器期望使用"zh"而不是"chi"
+        if (str_starts_with(strtolower($locale), 'zh')) {
+            if (file_exists(resource_path('lang/zh-hans'))) {
+                return 'zh-hans';
+            }
+            if (file_exists(resource_path('lang/zh'))) {
+                return 'zh';
+            }
+            if (file_exists(resource_path('lang/zh-cn'))) {
+                return 'zh-cn';
+            }
+        }
+        
         if (!file_exists(resource_path('lang/' . $locale)) && strlen($locale) > 2) {
             $lang = \Iso639p3::code2letters($locale);
             if (file_exists(resource_path('lang/' . $lang))) {

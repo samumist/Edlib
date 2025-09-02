@@ -42,6 +42,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -70,6 +71,33 @@ class H5PController extends Controller
         $this->middleware('adaptermode', ['only' => ['show', 'edit', 'update', 'store', 'create']]);
         $this->middleware('core.return', ['only' => ['create', 'edit']]);
         $this->middleware('core.locale', ['only' => ['create', 'edit', 'store']]);
+    }
+
+    /**
+     * 解析locale代码，检查是否有对应的翻译文件
+     */
+    private function resolveLocale(string $locale): string
+    {
+        // 特殊处理中文语言代码，H5P编辑器期望使用"zh"而不是"chi"
+        if (str_starts_with(strtolower($locale), 'zh')) {
+            if (file_exists(resource_path('lang/zh-hans'))) {
+                return 'zh-hans';
+            }
+            if (file_exists(resource_path('lang/zh'))) {
+                return 'zh';
+            }
+            if (file_exists(resource_path('lang/zh-cn'))) {
+                return 'zh-cn';
+            }
+        }
+        
+        if (!file_exists(resource_path('lang/' . $locale)) && strlen($locale) > 2) {
+            $lang = \Iso639p3::code2letters($locale);
+            if (file_exists(resource_path('lang/' . $lang))) {
+                return $lang;
+            }
+        }
+        return $locale;
     }
 
     public function show($id): View
@@ -121,9 +149,28 @@ class H5PController extends Controller
         Log::info("Create H5P, user: " . Session::get('authId', 'not-logged-in-user'));
 
         $language = Session::get('locale') ?? config("h5p.default-resource-language");
-        try {
-            $language = Iso639p3::code($language);
-        } catch (Exception) {
+        
+        // 确保App locale与Session locale同步，以便HTML页面显示正确语言
+        if (Session::has('locale')) {
+            $resolvedLocale = $this->resolveLocale(Session::get('locale'));
+            App::setLocale($resolvedLocale);
+            Log::info('H5P Create - Set App locale to: ' . $resolvedLocale . ', current locale: ' . app()->getLocale());
+        }
+        
+        // 为H5P编辑器准备语言代码
+        $h5pLanguage = $this->resolveLocale($language);
+        
+        // 对于中文，H5P编辑器使用特定的语言代码格式
+        if (str_starts_with(strtolower($h5pLanguage), 'zh')) {
+            $h5pLanguage = 'zh'; // H5P编辑器使用'zh'作为中文代码
+        } else {
+            // 对于其他语言，尝试使用Iso639p3转换
+            try {
+                $tempLang = Iso639p3::code($language);
+                $h5pLanguage = Iso639p3::code2letters($tempLang);
+            } catch (Exception) {
+                // 如果转换失败，使用原始语言代码
+            }
         }
 
         $editorConfig = (app(H5PCreateConfig::class))
@@ -133,7 +180,7 @@ class H5PController extends Controller
             ->setUserName(Session::get('name', false))
             ->setDisplayHub(empty($contenttype))
             ->setRedirectToken($request->input('redirectToken'))
-            ->setLanguage(Iso639p3::code2letters($language));
+            ->setLanguage($h5pLanguage);
 
         $h5pView = $this->h5p->createView($editorConfig);
 
@@ -191,6 +238,7 @@ class H5PController extends Controller
                 'editorSetup' => $editorSetup->toJson(),
                 'state' => $state,
                 'configJs' => $adapter->getConfigJs(),
+
             ],
         );
     }
@@ -239,8 +287,9 @@ class H5PController extends Controller
         if (!empty($content['params'])) {
             $content['params'] = str_replace("[[]]", "[{}]", $content['params']); //remove
         }
+        $filteredParams = $h5pCore->filterParameters($content);
         $params = json_encode([
-            'params' => json_decode($h5pCore->filterParameters($content)),
+            'params' => $filteredParams,
             'metadata' => $content['metadata'],
         ]);
 
@@ -589,7 +638,7 @@ class H5PController extends Controller
 
         $makeNewVersion = $h5pContent->requestShouldBecomeNewVersion($request);
         $oldContent['useVersioning'] = $makeNewVersion;
-        $content = $this->h5p->storeContent($request, $oldContent, $authId);
+        $content = $this->h5p->storeContent($request, (array)$oldContent, $authId);
 
         $newH5pContent = H5PContent::find($content['id']);
 

@@ -6,7 +6,7 @@ const loadLocale = async (locale) => {
     }
 
     if (locale === 'en') {
-        return {locale: 'zh-hans', messages: defaultMessages};
+        return {locale: 'en', messages: defaultMessages};
     }
 
     let messages;

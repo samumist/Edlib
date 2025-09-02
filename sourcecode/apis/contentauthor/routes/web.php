@@ -96,3 +96,5 @@ Route::get('/health', [HealthController::class, 'index']);
 Route::get('content/assets/{path?}', ContentAssetController::class)
     ->where('path', '.*')
     ->name('content.asset');
+
+// 测试locale设置的路由
