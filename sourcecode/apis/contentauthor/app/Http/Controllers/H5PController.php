@@ -287,9 +287,10 @@ class H5PController extends Controller
         if (!empty($content['params'])) {
             $content['params'] = str_replace("[[]]", "[{}]", $content['params']); //remove
         }
+        /** @var string $filteredParams */
         $filteredParams = $h5pCore->filterParameters($content);
         $params = json_encode([
-            'params' => $filteredParams,
+            'params' => json_decode($filteredParams, true),
             'metadata' => $content['metadata'],
         ]);
 
