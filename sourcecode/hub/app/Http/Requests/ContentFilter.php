@@ -339,7 +339,7 @@ class ContentFilter extends FormRequest
                 $canDelete = $forUser && Gate::allows('delete', $content);
                 $canCopy = Gate::allows('copy', $content);
 
-                $languageName = locale_get_display_language($version->language_iso_639_3, app()->getLocale());
+                $languageName = locale_get_display_name($version->language_iso_639_3, app()->getLocale()) ?: locale_get_display_name($version->language_iso_639_3, app()->getFallbackLocale());
                 $languageName = (!empty($languageName) && $languageName !== $version->language_iso_639_3) ? $languageName : null;
 
                 return new ContentDisplayItem(

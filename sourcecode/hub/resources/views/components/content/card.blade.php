@@ -44,7 +44,7 @@
                     title="{{$content->languageDisplayName}}"
                 @endisset
             >
-                {{ $content->languageIso639_3 }}
+                {{ $content->languageDisplayName ?? $content->languageIso639_3 }}
             </div>
         </div>
         <div class="card-text small text-line-clamp clamp-2-lines">
