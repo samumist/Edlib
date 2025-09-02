@@ -172,6 +172,19 @@ class H5PController extends Controller
                 // 如果转换失败，使用原始语言代码
             }
         }
+        
+        // 为数据库准备ISO 639-3语言代码
+        $databaseLanguage = $language;
+        if (str_starts_with(strtolower($language), 'zh')) {
+            $databaseLanguage = 'zho'; // 数据库使用ISO 639-3标准的中文代码
+        } else {
+            // 对于其他语言，尝试转换为ISO 639-3格式
+            try {
+                $databaseLanguage = Iso639p3::code($language);
+            } catch (Exception) {
+                // 如果转换失败，保持原始代码
+            }
+        }
 
         $editorConfig = (app(H5PCreateConfig::class))
             ->setUserId(Session::get('authId', false))
@@ -221,7 +234,7 @@ class H5PController extends Controller
             'license' => License::getDefaultLicense(),
             'isPublished' => $ltiRequest?->getPublished() ?? false,
             'isShared' => $ltiRequest?->getShared() ?? false,
-            'language_iso_639_3' => $language,
+            'language_iso_639_3' => $databaseLanguage,
             'redirectToken' => $request->get('redirectToken'),
             'route' => route('h5p.store'),
             '_method' => "POST",
@@ -263,6 +276,25 @@ class H5PController extends Controller
             $h5pLanguage = Iso639p3::code2letters($h5pLanguage);
         }
         $redirectToken = $request->input('redirectToken');
+        
+        // 获取当前语言设置
+        $language = Session::get('locale') ?? config("h5p.default-resource-language");
+        
+        // 为H5P编辑器准备语言代码
+        $editorLanguage = $this->resolveLocale($language);
+        
+        // 对于中文，H5P编辑器使用特定的语言代码格式
+        if (str_starts_with(strtolower($editorLanguage), 'zh')) {
+            $editorLanguage = 'zh-hans'; // H5P编辑器使用'zh-hans'作为简体中文代码
+        } else {
+            // 对于其他语言，尝试使用Iso639p3转换
+            try {
+                $tempLang = Iso639p3::code($language);
+                $editorLanguage = Iso639p3::code2letters($tempLang);
+            } catch (Exception) {
+                // 如果转换失败，使用原始语言代码
+            }
+        }
 
         $editorConfig = (app(H5PEditConfig::class))
             ->setUserId(Session::get('authId', false))
@@ -270,7 +302,7 @@ class H5PController extends Controller
             ->setUserEmail(Session::get('email', false))
             ->setUserName(Session::get('name', false))
             ->setRedirectToken($redirectToken)
-            ->setLanguage(LtiToH5PLanguage::convert(Session::get('locale')))
+            ->setLanguage($editorLanguage)
             ->loadContent($id);
 
         $h5pView = $this->h5p->createView($editorConfig);
