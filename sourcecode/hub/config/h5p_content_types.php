@@ -282,4 +282,9 @@ return [
         'zh' => '问题集',
         'nb' => 'Spørsmålssett',
     ],
+    'H5P.ChatSimulator' => [
+        'en' => 'Chat Simulator',
+        'zh' => '聊天模拟器',
+        'nb' => 'Chatsimulator',
+    ],
 ];

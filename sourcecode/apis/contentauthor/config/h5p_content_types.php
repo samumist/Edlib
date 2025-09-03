@@ -828,6 +828,40 @@ return [
             'nb' => 'Ordsky vil ta en liste med ord og generere en ordsky som vil endre størrelsen på hvert ord avhengig av hvor mange ganger det brukes.',
         ],
     ],
+    'H5P.GameMap' => [
+        'title' => [
+            'en' => 'Game Map',
+            'zh' => '游戏地图',
+            'nb' => 'Spillkart',
+        ],
+        'summary' => [
+            'en' => 'Create interactive game maps',
+            'zh' => '创建交互式游戏地图',
+            'nb' => 'Lag interaktive spillkart',
+        ],
+        'description' => [
+            'en' => 'Create interactive maps where users can navigate between different locations and complete various activities.',
+            'zh' => '创建交互式地图，用户可以在不同位置之间导航并完成各种活动。',
+            'nb' => 'Lag interaktive kart der brukere kan navigere mellom forskjellige steder og fullføre ulike aktiviteter.',
+        ],
+    ],
+    'H5P.ChatSimulator' => [
+        'title' => [
+            'en' => 'Chat Simulator',
+            'zh' => '聊天模拟器',
+            'nb' => 'Chatsimulator',
+        ],
+        'summary' => [
+            'en' => 'Simulate a chat conversation',
+            'zh' => '模拟聊天对话',
+            'nb' => 'Simuler en chatkonversation',
+        ],
+        'description' => [
+            'en' => 'Simulate a chat conversation with multiple users',
+            'zh' => '模拟聊天对话，支持多个用户',
+            'nb' => 'Simuler en chatkonversation med flere brukere',
+        ],
+    ],
     'H5P.ThreeDModel' => [
         'title' => [
             'en' => '3D Model',
@@ -860,23 +894,6 @@ return [
             'en' => 'Create escape room games where users solve puzzles and challenges to progress through the experience.',
             'zh' => '创建密室逃脱游戏，用户解决谜题和挑战以推进体验。',
             'nb' => 'Lag rømningsrom spill der brukere løser gåter og utfordringer for å komme videre gjennom opplevelsen.',
-        ],
-    ],
-    'H5P.GameMap' => [
-        'title' => [
-            'en' => 'Game Map',
-            'zh' => '游戏地图',
-            'nb' => 'Spillkart',
-        ],
-        'summary' => [
-            'en' => 'Create interactive game maps',
-            'zh' => '创建交互式游戏地图',
-            'nb' => 'Lag interaktive spillkart',
-        ],
-        'description' => [
-            'en' => 'Create interactive maps where users can navigate between different locations and complete various activities.',
-            'zh' => '创建交互式地图，用户可以在不同位置之间导航并完成各种活动。',
-            'nb' => 'Lag interaktive kart der brukere kan navigere mellom forskjellige steder og fullføre ulike aktiviteter.',
         ],
     ],
 ];
