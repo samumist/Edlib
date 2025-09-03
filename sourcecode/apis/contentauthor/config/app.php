@@ -200,7 +200,6 @@ return [
         'de' => 'Deutsch',
         'en' => 'English',
         'ko' => '한국어',
-        'nb' => 'Norsk',
         'nl' => 'Nederlands',
         'nn' => 'Nynorsk',
         'sv' => 'Svenska',

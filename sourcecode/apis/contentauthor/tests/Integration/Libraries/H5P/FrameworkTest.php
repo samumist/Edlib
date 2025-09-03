@@ -80,7 +80,6 @@ final class FrameworkTest extends TestCase
                 ['path' => 'DC2', 'name' => 'DC2 name', 'machineName' => 'H5P.Dc2'],
             ],
             'language' => [
-                'nb' => 'Norsk Bokmål',
                 'nn' => 'Norsk Nynorsk',
             ],
         ];
