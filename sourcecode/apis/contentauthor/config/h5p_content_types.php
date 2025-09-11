@@ -711,6 +711,10 @@ return [
             'en' => 'Simulate a chat conversation with multiple users',
             'zh' => '模拟聊天对话，支持多个用户',
         ],
+        'example' => 'https://edlib.com/examples/chat-simulator',
+        'tutorial' => 'https://www.elearningfriendly.com',
+        'keywords' => ['chat', 'conversation', 'dialogue', 'interactive', 'communication', 'simulation', '聊天', '对话', '交互', '沟通', '模拟'],
+        'license' => 'MIT',
     ],
     'H5P.ThreeDModel' => [
         'title' => [

@@ -183,6 +183,34 @@ class EditorAjax implements \H5PEditorAjaxInterface
                     // Ensure description is set even if no config
                     $contentType->description = $contentType->description ?? '';
                 }
+                
+                // Handle example field
+                if (isset($config['example'])) {
+                    $contentType->example = $config['example'];
+                }
+                
+                // Handle tutorial field
+                if (isset($config['tutorial'])) {
+                    $contentType->tutorial = $config['tutorial'];
+                }
+                
+                // Handle keywords field
+                if (isset($config['keywords'])) {
+                    if (is_array($config['keywords'])) {
+                        $localizedKeywords = $config['keywords'][$mappedLocale] 
+                            ?? $config['keywords'][$locale] 
+                            ?? $config['keywords']['en'] 
+                            ?? [];
+                        $contentType->keywords = $localizedKeywords;
+                    } else {
+                        $contentType->keywords = $config['keywords'];
+                    }
+                }
+                
+                // Handle license field
+                if (isset($config['license'])) {
+                    $contentType->license = $config['license'];
+                }
             }
             
             return $contentType;
