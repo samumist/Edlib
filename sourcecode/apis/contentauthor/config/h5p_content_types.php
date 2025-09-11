@@ -715,6 +715,7 @@ return [
         'tutorial' => 'https://www.elearningfriendly.com',
         'keywords' => ['chat', 'conversation', 'dialogue', 'interactive', 'communication', 'simulation', '聊天', '对话', '交互', '沟通', '模拟'],
         'license' => 'MIT',
+        'owner' => 'Edlib Team',
     ],
     'H5P.ThreeDModel' => [
         'title' => [

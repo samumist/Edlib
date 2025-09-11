@@ -211,6 +211,11 @@ class EditorAjax implements \H5PEditorAjaxInterface
                 if (isset($config['license'])) {
                     $contentType->license = $config['license'];
                 }
+                
+                // Handle owner field
+                if (isset($config['owner'])) {
+                    $contentType->owner = $config['owner'];
+                }
             }
             
             return $contentType;
