@@ -51,14 +51,14 @@ class EditorAjax implements \H5PEditorAjaxInterface
             if ($machineName) {
                 $hubCache = H5PLibrariesHubCache::where('name', $machineName)->first();
                 if ($hubCache) {
-                    return (object) $hubCache->only(['id', 'is_recommended']);
+                    return (object) $hubCache->only(['id', 'is_recommended', 'screenshots']);
                 }
                 // Fallback for manually installed libraries
-                return (object) ['id' => null, 'is_recommended' => false];
+                return (object) ['id' => null, 'is_recommended' => false, 'screenshots' => ''];
             }
         } catch (\Exception $e) {
             Log::warning('Error getting specific content type cache: ' . $e->getMessage());
-            return (object) ['id' => null, 'is_recommended' => false];
+            return (object) ['id' => null, 'is_recommended' => false, 'screenshots' => ''];
         }
 
         try {
@@ -115,6 +115,7 @@ class EditorAjax implements \H5PEditorAjaxInterface
             // They will be populated by the localization logic below
             $hubCacheItem->summary = '';
             $hubCacheItem->description = '';
+            $hubCacheItem->screenshots = '';
             $hubCacheItem->major_version = $library->major_version;
             $hubCacheItem->minor_version = $library->minor_version;
             $hubCacheItem->patch_version = $library->patch_version;
@@ -215,6 +216,23 @@ class EditorAjax implements \H5PEditorAjaxInterface
                 // Handle owner field
                 if (isset($config['owner'])) {
                     $contentType->owner = $config['owner'];
+                }
+                
+                // Handle screenshots field
+                if (isset($config['screenshots'])) {
+                    // Screenshots should be stored as JSON string in database
+                    // but config may contain array format, so we need to handle both
+                    if (is_array($config['screenshots'])) {
+                        $contentType->screenshots = json_encode($config['screenshots']);
+                    } else {
+                        $contentType->screenshots = $config['screenshots'];
+                    }
+                } else {
+                    // Ensure screenshots field exists even if not in config
+                    // Check if contentType already has screenshots from database
+                    if (!isset($contentType->screenshots)) {
+                        $contentType->screenshots = '';
+                    }
                 }
             }
             
