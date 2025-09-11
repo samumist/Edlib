@@ -714,8 +714,17 @@ return [
         'example' => 'https://edlib.com/examples/chat-simulator',
         'tutorial' => 'https://www.elearningfriendly.com',
         'keywords' => ['chat', 'conversation', 'dialogue', 'interactive', 'communication', 'simulation', '聊天', '对话', '交互', '沟通', '模拟'],
-        'license' => 'MIT',
         'owner' => 'Edlib Team',
+        'screenshots' => [
+            [
+                'url' => 'https://h5p.org/sites/default/files/styles/h5p-content-type-hub-screenshot/public/multiple-choice-04.png?itok=eSNsVzFo',
+                'alt' => 'Chat Simulator界面截图1'
+            ],
+            [
+                'url' => 'https://h5p.org/sites/default/files/styles/h5p-content-type-hub-screenshot/public/multiple-choice-04.png?itok=eSNsVzFo',
+                'alt' => 'Chat Simulator界面截图2'
+            ]
+        ],
     ],
     'H5P.ThreeDModel' => [
         'title' => [
@@ -730,6 +739,20 @@ return [
             'en' => 'Display and interact with 3D models. Users can rotate, zoom and explore 3D objects in an interactive way.',
             'zh' => '显示和交互3D模型。用户可以以交互方式旋转、缩放和探索3D对象。',
         ],
+        'owner' => 'Edlib Team',
+        'example' => 'https://edlib.com/examples/3d-model',
+        'tutorial' => 'https://edlib.com/tutorials/3d-model',
+        'keywords' => ['3D', 'model', 'interactive', 'visualization', 'education'],
+        'screenshots' => [
+            [
+                'url' => 'https://h5p.org/sites/default/files/styles/h5p-content-type-hub-screenshot/public/multiple-choice-04.png?itok=eSNsVzFo',
+                'alt' => '3D Model界面截图1'
+            ],
+            [
+                'url' => 'https://h5p.org/sites/default/files/styles/h5p-content-type-hub-screenshot/public/multiple-choice-04.png?itok=eSNsVzFo',
+                'alt' => '3D Model界面截图2'
+            ]
+        ],
     ],
     'H5P.EscapeRoom' => [
         'title' => [
@@ -743,6 +766,20 @@ return [
         'description' => [
             'en' => 'Create escape room games where users solve puzzles and challenges to progress through the experience.',
             'zh' => '创建密室逃脱游戏，用户解决谜题和挑战以推进体验。',
+        ],
+        'owner' => 'Edlib Team',
+        'example' => 'https://edlib.com/examples/escape-room',
+        'tutorial' => 'https://edlib.com/tutorials/escape-room',
+        'keywords' => ['escape', 'room', 'puzzle', 'game', 'adventure'],
+        'screenshots' => [
+            [
+                'url' => 'https://h5p.org/sites/default/files/styles/h5p-content-type-hub-screenshot/public/multiple-choice-04.png?itok=eSNsVzFo',
+                'alt' => 'Escape Room界面截图1'
+            ],
+            [
+                'url' => 'https://h5p.org/sites/default/files/styles/h5p-content-type-hub-screenshot/public/multiple-choice-04.png?itok=eSNsVzFo',
+                'alt' => 'Escape Room界面截图2'
+            ]
         ],
     ],
 ];
