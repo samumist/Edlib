@@ -127,7 +127,7 @@ class EditorAjax implements \H5PEditorAjaxInterface
         });
 
         // Merge hub and manual content types
-        $contentTypes = $hubContentTypes->merge($manualContentTypes);
+        $contentTypes = $hubContentTypes->concat($manualContentTypes);
 
         // Apply localized titles and descriptions from config
         $h5pConfig = config('h5p_content_types');
