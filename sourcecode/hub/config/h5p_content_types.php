@@ -230,6 +230,6 @@ return [
     ],
     'H5P.ChatSimulator' => [
         'en' => 'Chat Simulator',
-        'zh' => '聊天模拟器',
+        'zh' => '对话脚本编辑器',
     ],
 ];

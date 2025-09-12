@@ -701,20 +701,20 @@ return [
     'H5P.ChatSimulator' => [
         'title' => [
             'en' => 'Chat Simulator',
-            'zh' => '聊天模拟器',
+            'zh' => '对话脚本编辑器',
         ],
         'summary' => [
-            'en' => 'Simulate a chat conversation',
-            'zh' => '模拟聊天对话',
+            'en' => 'Create realistic chat conversations with customizable participants',
+            'zh' => '创建具有可自定义参与者的逼真聊天对话',
         ],
         'description' => [
-            'en' => 'Simulate a chat conversation with multiple users',
-            'zh' => '模拟聊天对话，支持多个用户',
+            'en' => 'Create engaging chat simulations with multiple participants. Add messages for sender and receiver with emoji support, customize names, photos and colors for each participant. Configure autostart or manual controls, and define vertical growth behavior. Perfect for language learning, social scenarios, customer service training, and interactive storytelling.',
+            'zh' => '创建引人入胜的多参与者聊天模拟。为发送者和接收者添加支持表情符号的消息，为每个参与者自定义姓名、照片和颜色。配置自动启动或手动控制，并定义垂直增长行为。非常适合语言学习、社交场景、客户服务培训和互动故事讲述。',
         ],
         'example' => 'https://edlib.com/examples/chat-simulator',
         'tutorial' => 'https://www.elearningfriendly.com',
         'keywords' => ['chat', 'conversation', 'dialogue', 'interactive', 'communication', 'simulation', '聊天', '对话', '交互', '沟通', '模拟'],
-        'owner' => 'Edlib Team',
+        'owner' => 'otacke',
         'screenshots' => [
             [
                 'url' => 'https://h5p.org/sites/default/files/styles/h5p-content-type-hub-screenshot/public/multiple-choice-04.png?itok=eSNsVzFo',
@@ -739,17 +739,17 @@ return [
             'en' => 'Display and interact with 3D models. Users can rotate, zoom and explore 3D objects in an interactive way.',
             'zh' => '显示和交互3D模型。用户可以以交互方式旋转、缩放和探索3D对象。',
         ],
-        'owner' => 'Edlib Team',
+        'owner' => 'otacke',
         'example' => 'https://edlib.com/examples/3d-model',
         'tutorial' => 'https://edlib.com/tutorials/3d-model',
         'keywords' => ['3D', 'model', 'interactive', 'visualization', 'education'],
         'screenshots' => [
             [
-                'url' => 'https://h5p.org/sites/default/files/styles/h5p-content-type-hub-screenshot/public/multiple-choice-04.png?itok=eSNsVzFo',
+                'url' => '/graphical/h5p/screenshots/three-d-model-01.png',
                 'alt' => '3D Model界面截图1'
             ],
             [
-                'url' => 'https://h5p.org/sites/default/files/styles/h5p-content-type-hub-screenshot/public/multiple-choice-04.png?itok=eSNsVzFo',
+                'url' => '/graphical/h5p/screenshots/three-d-model-02.png',
                 'alt' => '3D Model界面截图2'
             ]
         ],
@@ -767,7 +767,7 @@ return [
             'en' => 'Create escape room games where users solve puzzles and challenges to progress through the experience.',
             'zh' => '创建密室逃脱游戏，用户解决谜题和挑战以推进体验。',
         ],
-        'owner' => 'Edlib Team',
+        'owner' => 'NDLA',
         'example' => 'https://edlib.com/examples/escape-room',
         'tutorial' => 'https://edlib.com/tutorials/escape-room',
         'keywords' => ['escape', 'room', 'puzzle', 'game', 'adventure'],
